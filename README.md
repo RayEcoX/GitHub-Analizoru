@@ -41,8 +41,7 @@ GitHub-Analizoru/
 ├── iletisim.html       # İletişim formu
 ├── style.css           # Tüm özel stiller
 ├── app.js              # Ana JavaScript mantığı
-├── profil.js           # Profil sayfası JS
-└── guide.md            # Proje rehberi / dökümantasyon
+└── profil.js           # Profil sayfası JS
 ```
 
 ## 💻 Yerel Kurulum

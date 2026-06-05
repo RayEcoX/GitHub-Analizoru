@@ -1,66 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* ========================================================================= */
-/* MONOKROM (SİYAH-BEYAZ) TEMA MİMARİSİ (LIGHT / DARK)                       */
-/* ========================================================================= */
+/* TEMA DEĞİŞKENLERİ */
 
-/* LIGHT THEME (Açık Tema - Monokrom) */
+/* Açık Tema */
 :root {
-    --bg-color: #ffffff;        /* Saf Beyaz */
-    --text-color: #111111;      /* Keskin Siyah metin */
-    --text-secondary: #666666;  /* Gri alt metinler */
+    --bg-color: #ffffff;
+    --text-color: #111111;
+    --text-secondary: #666666;
     --nav-bg: rgba(255, 255, 255, 0.8);
-    --card-bg: #f9f9f9;         /* Arka plandan ayrışması için hafif gri */
-    --card-border: #e0e0e0;     /* İnce gri sınır çizgisi */
-    --input-bg: #ffffff;        
-    --primary: #111111;         /* Siyah buton, siyah vurgular */
-    --primary-hover: #333333;   
-    --btn-text: #ffffff;        /* Siyah buton üstü beyaz yazı */
-    --glow-shadow: rgba(0, 0, 0, 0.15); /* Saydam Siyah Glow */
+    --card-bg: #f9f9f9;
+    --card-border: #e0e0e0;
+    --input-bg: #ffffff;
+    --primary: #111111;
+    --primary-hover: #333333;
+    --btn-text: #ffffff;
+    --glow-shadow: rgba(0, 0, 0, 0.15);
     --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    
+
     --radius-lg: 20px;
 }
 
-/* DARK THEME (Koyu Tema - Monokrom) */
+/* Koyu Tema */
 [data-bs-theme="dark"] {
-    --bg-color: #0a0a0a;        /* Saf karanlığa çok yakın */
-    --text-color: #f5f5f5;      /* Göz yormayan beyaz */
-    --text-secondary: #a3a3a3;  /* Orta gri alt metinler */
+    --bg-color: #0a0a0a;
+    --text-color: #f5f5f5;
+    --text-secondary: #a3a3a3;
     --nav-bg: rgba(10, 10, 10, 0.8);
-    --card-bg: #141414;         /* Arka plandan bir tık açık */
-    --card-border: #262626;     
-    --input-bg: #0a0a0a;        
-    --primary: #f5f5f5;         /* Karanlık modda beyaz butonlar */
+    --card-bg: #141414;
+    --card-border: #262626;
+    --input-bg: #0a0a0a;
+    --primary: #f5f5f5;
     --primary-hover: #cccccc;
-    --btn-text: #111111;        /* Beyaz buton üstü siyah yazı */
-    --glow-shadow: rgba(255, 255, 255, 0.2); /* Beyaz focus efekti */
+    --btn-text: #111111;
+    --glow-shadow: rgba(255, 255, 255, 0.2);
     --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
-/* ========================================================================= */
-/* GENEL AYARLAR                                                             */
-/* ========================================================================= */
+/* GENEL AYARLAR */
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color) !important;
     color: var(--text-color) !important;
-    transition: background-color 0.4s ease, color 0.4s ease; 
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--text-color);
 }
 
-/* ========================================================================= */
-/* GLASSMORPHISM NAVBAR & FOOTER                                             */
-/* ========================================================================= */
+/* NAVBAR & FOOTER */
 .custom-navbar {
     background-color: var(--nav-bg) !important;
-    backdrop-filter: blur(12px);         
-    -webkit-backdrop-filter: blur(12px); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--card-border) !important;
-    position: sticky; 
+    position: sticky;
     top: 0;
     z-index: 1000;
     transition: background-color 0.4s ease, border-color 0.4s ease;
@@ -71,9 +70,7 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid var(--card-border) !important;
 }
 
-/* ========================================================================= */
-/* MİNİMALİST KARTLAR & BENTO BOX                                            */
-/* ========================================================================= */
+/* KARTLAR */
 .custom-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -83,9 +80,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .custom-card:hover {
-    transform: translateY(-4px) scale(1.01); 
+    transform: translateY(-4px) scale(1.01);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-color: var(--primary); /* Hoverda sınır vurgusu */
+    border-color: var(--primary);
 }
 
 .bento-icon {
@@ -95,15 +92,13 @@ h1, h2, h3, h4, h5, h6 {
     width: 60px;
     height: 60px;
     border-radius: 14px;
-    background-color: var(--bg-color); /* Monokrom ikon zemini */
+    background-color: var(--bg-color);
     color: var(--primary);
     border: 1px solid var(--card-border);
     margin-bottom: 1.5rem;
 }
 
-/* ========================================================================= */
-/* INPUT (Arama / Form Kutuları) VE BUTONLAR                                 */
-/* ========================================================================= */
+/* INPUT VE BUTONLAR */
 .custom-input {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -118,7 +113,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--input-bg);
     border-color: var(--primary);
     color: var(--text-color);
-    box-shadow: 0 0 0 4px var(--glow-shadow); 
+    box-shadow: 0 0 0 4px var(--glow-shadow);
     outline: none;
 }
 
@@ -138,7 +133,7 @@ h1, h2, h3, h4, h5, h6 {
     transition: all 0.3s ease;
     background-color: var(--primary);
     border: 1px solid var(--primary);
-    color: var(--btn-text) !important; /* Tema rengine göre Siyah/Beyaz değişken */
+    color: var(--btn-text) !important;
 }
 
 .custom-btn:hover {
@@ -152,19 +147,19 @@ h1, h2, h3, h4, h5, h6 {
 .search-btn {
     border-radius: 0 14px 14px 0 !important;
 }
+
 .search-input {
     border-radius: 14px 0 0 14px !important;
     border-right: none;
 }
 
-/* ========================================================================= */
-/* KADEMELİ SAHNE GİRİŞ ANİMASYONLARI (STAGGERED ANIMATIONS)                 */
-/* ========================================================================= */
+/* ANİMASYONLAR */
 @keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(30px) scale(0.98);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -176,14 +171,23 @@ h1, h2, h3, h4, h5, h6 {
     animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.delay-1 { animation-delay: 0.15s; }
-.delay-2 { animation-delay: 0.30s; }
-.delay-3 { animation-delay: 0.45s; }
-.delay-4 { animation-delay: 0.60s; }
+.delay-1 {
+    animation-delay: 0.15s;
+}
 
-/* ========================================================================= */
-/* FİLTRE PİLLLERI (REPO DİL FİLTRESİ)                                      */
-/* ========================================================================= */
+.delay-2 {
+    animation-delay: 0.30s;
+}
+
+.delay-3 {
+    animation-delay: 0.45s;
+}
+
+.delay-4 {
+    animation-delay: 0.60s;
+}
+
+/* FİLTRE PİLLERİ */
 .filter-pill {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -207,9 +211,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--btn-text);
 }
 
-/* ========================================================================= */
-/* GEÇMİŞ CHİPLERİ                                                           */
-/* ========================================================================= */
+/* GEÇMİŞ CHİPLERİ */
 .history-chip {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -228,9 +230,7 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-1px);
 }
 
-/* ========================================================================= */
-/* DİL ANALİZ BARLARI (profil.html)                                          */
-/* ========================================================================= */
+/* DİL ANALİZ BARLARI - profil.html */
 .lang-bar-track {
     background-color: var(--card-border);
     border-radius: 999px;
@@ -244,9 +244,7 @@ h1, h2, h3, h4, h5, h6 {
     transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ========================================================================= */
-/* PROFİL DETAY (profil.html)                                                */
-/* ========================================================================= */
+/* PROFİL DETAY - profil.html */
 .stat-box {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);

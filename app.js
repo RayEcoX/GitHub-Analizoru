@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const themeBtn  = document.getElementById('themeToggleBtn');
+    const themeBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
-    const htmlTag   = document.documentElement;
+    const htmlTag = document.documentElement;
     const savedTheme = localStorage.getItem('app-theme');
 
     if (savedTheme === 'light') {
@@ -34,19 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setMoonIcon(el) { if (el) el.className = 'bi bi-moon-fill fs-5'; }
-function setSunIcon(el)  { if (el) el.className = 'bi bi-sun-fill fs-5'; }
+function setSunIcon(el) { if (el) el.className = 'bi bi-sun-fill fs-5'; }
+
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
 function getThemeColors() {
     const theme = document.documentElement.getAttribute('data-bs-theme');
     return {
-        bgColor:   theme === 'dark' ? '#1e293b' : '#fff',
-        textColor: theme === 'dark' ? '#f8fafc' : '#1c1c1e'
+        bgColor: theme === 'dark' ? '#0a0a0a' : '#ffffff',
+        textColor: theme === 'dark' ? '#f5f5f5' : '#111111'
     };
 }
 
-// ==============================================================
-// ARAMA GEÇMİŞİ
-// ==============================================================
+// ARAMA GEÇMİŞİ (index.html)
 
 function saveToHistory(username) {
     let history = loadHistory();
@@ -62,7 +65,7 @@ function loadHistory() {
 
 function renderHistory() {
     const section = document.getElementById('historySection');
-    const chips   = document.getElementById('historyChips');
+    const chips = document.getElementById('historyChips');
     if (!section || !chips) return;
 
     const history = loadHistory();
@@ -70,8 +73,8 @@ function renderHistory() {
 
     section.style.display = 'block';
     chips.innerHTML = history.map(u => `
-        <button class="history-chip" data-username="${u}">
-            <i class="bi bi-person me-1"></i>@${u}
+        <button class="history-chip" data-username="${escapeHTML(u)}">
+            <i class="bi bi-person me-1"></i>@${escapeHTML(u)}
         </button>
     `).join('');
 
@@ -83,12 +86,10 @@ function renderHistory() {
     });
 }
 
-// ==============================================================
-// ARAMA MANTIĞI
-// ==============================================================
+// ARAMA MANTIĞI (index.html)
 
-const searchInput      = document.getElementById('searchInput');
-const searchBtn        = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
 const resultsContainer = document.getElementById('resultsContainer');
 
 if (searchBtn && searchInput) {
@@ -113,9 +114,7 @@ function handleSearch() {
     fetchGitHubUser(kullaniciAdi);
 }
 
-// ==============================================================
-// GITHUB API
-// ==============================================================
+// GITHUB API (index.html)
 
 async function fetchGitHubUser(username) {
     showLoading();
@@ -127,9 +126,10 @@ async function fetchGitHubUser(username) {
         ]);
 
         if (userRes.status === 404) { showError(username); return; }
+        if (userRes.status === 403) { showRateLimitError(); return; }
         if (!userRes.ok) throw new Error('API hatası');
 
-        const userData  = await userRes.json();
+        const userData = await userRes.json();
         const reposData = await reposRes.json();
 
         profilGoster(userData);
@@ -139,9 +139,7 @@ async function fetchGitHubUser(username) {
     } catch { showNetworkError(); }
 }
 
-// ==============================================================
-// LOADING
-// ==============================================================
+// LOADING (index.html)
 
 function showLoading() {
     resultsContainer.innerHTML = `
@@ -153,25 +151,29 @@ function showLoading() {
         </div>`;
 }
 
-// ==============================================================
-// PROFİL KARTI
-// ==============================================================
+// PROFİL KARTI (index.html)
 
 function profilGoster(data) {
-    const locationHTML = data.location ? `<span class="me-3"><i class="bi bi-geo-alt me-1"></i>${data.location}</span>` : '';
-    const blogHTML     = data.blog ? `<a href="${data.blog}" target="_blank" style="color:var(--text-color);"><i class="bi bi-link-45deg me-1"></i>${data.blog}</a>` : '';
-    const bioHTML      = data.bio ? `<p class="mb-3" style="color:var(--text-secondary);line-height:1.7;">${data.bio}</p>` : '';
+    const name = escapeHTML(data.name) || escapeHTML(data.login);
+    const login = escapeHTML(data.login);
+    const bio = data.bio ? escapeHTML(data.bio) : '';
+    const location = data.location ? escapeHTML(data.location) : '';
+    const blog = data.blog ? escapeHTML(data.blog) : '';
+
+    const locationHTML = location ? `<span class="me-3"><i class="bi bi-geo-alt me-1"></i>${location}</span>` : '';
+    const blogHTML = blog ? `<a href="${blog}" target="_blank" style="color:var(--text-color);"><i class="bi bi-link-45deg me-1"></i>${blog}</a>` : '';
+    const bioHTML = bio ? `<p class="mb-3" style="color:var(--text-secondary);line-height:1.7;">${bio}</p>` : '';
 
     resultsContainer.innerHTML = `
         <div class="custom-card p-4 p-md-5 animate-fade-up mb-4">
             <div class="row align-items-center g-4">
                 <div class="col-auto">
-                    <img src="${data.avatar_url}" alt="${data.login}" class="rounded-circle"
+                    <img src="${escapeHTML(data.avatar_url)}" alt="${login}" class="rounded-circle"
                          style="width:90px;height:90px;object-fit:cover;border:2px solid var(--card-border);">
                 </div>
                 <div class="col">
-                    <h2 class="fw-bold mb-1" style="color:var(--text-color);">${data.name || data.login}</h2>
-                    <p class="mb-2" style="color:var(--text-secondary);">@${data.login}</p>
+                    <h2 class="fw-bold mb-1" style="color:var(--text-color);">${name}</h2>
+                    <p class="mb-2" style="color:var(--text-secondary);">@${login}</p>
                     ${bioHTML}
                     <div style="color:var(--text-secondary);font-size:0.9rem;">${locationHTML}${blogHTML}</div>
                 </div>
@@ -201,10 +203,10 @@ function profilGoster(data) {
             </div>
 
             <div class="d-flex gap-2 flex-wrap">
-                <a href="${data.html_url}" target="_blank" class="btn custom-btn d-flex align-items-center gap-2" style="flex:1;">
+                <a href="${escapeHTML(data.html_url)}" target="_blank" class="btn custom-btn d-flex align-items-center gap-2" style="flex:1;">
                     <i class="bi bi-github"></i> GitHub'da Aç
                 </a>
-                <a href="profil.html?username=${data.login}" class="btn d-flex align-items-center gap-2 fw-semibold"
+                <a href="profil.html?username=${login}" class="btn d-flex align-items-center gap-2 fw-semibold"
                    style="flex:1;border-radius:14px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-color);padding:1rem 2rem;">
                     <i class="bi bi-bar-chart-line"></i> Detaylı Analiz
                 </a>
@@ -212,9 +214,7 @@ function profilGoster(data) {
         </div>`;
 }
 
-// ==============================================================
-// REPO LİSTESİ + DİL FİLTRESİ
-// ==============================================================
+// REPO LİSTESİ + DİL FİLTRESİ (index.html)
 
 function repolariGoster(repos) {
     if (!repos || repos.length === 0) return;
@@ -224,26 +224,27 @@ function repolariGoster(repos) {
     const filterPills = `
         <div id="repoFilter" class="d-flex flex-wrap gap-2 mb-4">
             <button class="filter-pill active" data-lang="all">Tümü</button>
-            ${languages.map(l => `<button class="filter-pill" data-lang="${l}">${l}</button>`).join('')}
+            ${languages.map(l => `<button class="filter-pill" data-lang="${escapeHTML(l)}">${escapeHTML(l)}</button>`).join('')}
         </div>`;
 
     const repoCardsHTML = repos.map(repo => {
         const langColor = getLangColor(repo.language);
-        const desc      = repo.description || 'Açıklama mevcut değil.';
+        const desc = escapeHTML(repo.description) || 'Açıklama mevcut değil.';
+        const repoName = escapeHTML(repo.name);
         return `
-            <div class="col-md-6 repo-item" data-lang="${repo.language || 'none'}">
-                <a href="${repo.html_url}" target="_blank" class="text-decoration-none">
+            <div class="col-md-6 repo-item" data-lang="${escapeHTML(repo.language || 'none')}">
+                <a href="${escapeHTML(repo.html_url)}" target="_blank" class="text-decoration-none">
                     <div class="custom-card p-4 h-100">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h6 class="fw-bold mb-0" style="color:var(--text-color);">
-                                <i class="bi bi-book me-2" style="color:var(--text-secondary);"></i>${repo.name}
+                                <i class="bi bi-book me-2" style="color:var(--text-secondary);"></i>${repoName}
                             </h6>
                             <span style="color:var(--text-secondary);font-size:0.85rem;white-space:nowrap;">
                                 <i class="bi bi-star me-1"></i>${repo.stargazers_count}
                             </span>
                         </div>
                         <p style="color:var(--text-secondary);font-size:0.88rem;line-height:1.6;" class="mb-3">${desc}</p>
-                        ${repo.language ? `<span class="badge" style="background:${langColor}20;color:${langColor};border:1px solid ${langColor}40;">${repo.language}</span>` : ''}
+                        ${repo.language ? `<span class="badge" style="background:${langColor}20;color:${langColor};border:1px solid ${langColor}40;">${escapeHTML(repo.language)}</span>` : ''}
                     </div>
                 </a>
             </div>`;
@@ -270,9 +271,7 @@ function repolariGoster(repos) {
     });
 }
 
-// ==============================================================
-// HATA UI
-// ==============================================================
+// HATA EKRANLARI (index.html)
 
 function showError(username) {
     resultsContainer.innerHTML = `
@@ -281,7 +280,18 @@ function showError(username) {
                 <i class="bi bi-person-x fs-3"></i>
             </div>
             <h4 class="fw-bold mb-2" style="color:var(--text-color);">Kullanıcı Bulunamadı</h4>
-            <p style="color:var(--text-secondary);"><strong style="color:var(--text-color);">@${username}</strong> adlı bir GitHub hesabı mevcut değil.</p>
+            <p style="color:var(--text-secondary);"><strong style="color:var(--text-color);">@${escapeHTML(username)}</strong> adlı bir GitHub hesabı mevcut değil.</p>
+        </div>`;
+}
+
+function showRateLimitError() {
+    resultsContainer.innerHTML = `
+        <div class="custom-card p-5 text-center animate-fade-up">
+            <div class="bento-icon mx-auto mb-4" style="border-color:#f59e0b;color:#f59e0b;">
+                <i class="bi bi-hourglass-split fs-3"></i>
+            </div>
+            <h4 class="fw-bold mb-2" style="color:var(--text-color);">İstek Limiti Aşıldı</h4>
+            <p style="color:var(--text-secondary);">GitHub API saatlik istek limitine ulaşıldı. Lütfen biraz bekleyip tekrar deneyin.</p>
         </div>`;
 }
 
@@ -296,9 +306,7 @@ function showNetworkError() {
         </div>`;
 }
 
-// ==============================================================
 // YARDIMCI FONKSİYONLAR
-// ==============================================================
 
 function formatNumber(num) {
     if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
@@ -316,20 +324,18 @@ function getLangColor(lang) {
     return colors[lang] || '#888888';
 }
 
-// ==============================================================
-// İLETİŞİM FORMU
-// ==============================================================
+// İLETİŞİM FORMU (iletisim.html)
 
-const contactForm   = document.getElementById('contactForm');
-const nameInput     = document.getElementById('nameInput');
-const emailInput    = document.getElementById('emailInput');
-const messageInput  = document.getElementById('messageInput');
+const contactForm = document.getElementById('contactForm');
+const nameInput = document.getElementById('nameInput');
+const emailInput = document.getElementById('emailInput');
+const messageInput = document.getElementById('messageInput');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        const nameData    = nameInput.value.trim();
-        const emailData   = emailInput.value.trim();
+        const nameData = nameInput.value.trim();
+        const emailData = emailInput.value.trim();
         const messageData = messageInput.value.trim();
         const { bgColor, textColor } = getThemeColors();
 
@@ -337,7 +343,7 @@ if (contactForm) {
             Swal.fire({ icon: 'error', title: 'Eksik Bilgi', text: 'Lütfen tüm alanları doldurunuz!', background: bgColor, color: textColor, confirmButtonColor: '#fe0000' });
             return;
         }
-        if (!emailData.includes('@') || !emailData.includes('.')) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailData)) {
             Swal.fire({ icon: 'warning', title: 'Geçersiz E-posta', text: 'Lütfen geçerli bir e-posta adresi giriniz.', background: bgColor, color: textColor, confirmButtonColor: '#3b82f6' });
             return;
         }
