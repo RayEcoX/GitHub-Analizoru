@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ========================================================================= */
+/* MONOKROM (SİYAH-BEYAZ) TEMA MİMARİSİ (LIGHT / DARK)                       */
+/* ========================================================================= */
+
+/* LIGHT THEME (Açık Tema - Monokrom) */
+:root {
+    --bg-color: #ffffff;        /* Saf Beyaz */
+    --text-color: #111111;      /* Keskin Siyah metin */
+    --text-secondary: #666666;  /* Gri alt metinler */
+    --nav-bg: rgba(255, 255, 255, 0.8);
+    --card-bg: #f9f9f9;         /* Arka plandan ayrışması için hafif gri */
+    --card-border: #e0e0e0;     /* İnce gri sınır çizgisi */
+    --input-bg: #ffffff;        
+    --primary: #111111;         /* Siyah buton, siyah vurgular */
+    --primary-hover: #333333;   
+    --btn-text: #ffffff;        /* Siyah buton üstü beyaz yazı */
+    --glow-shadow: rgba(0, 0, 0, 0.15); /* Saydam Siyah Glow */
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    
+    --radius-lg: 20px;
+}
+
+/* DARK THEME (Koyu Tema - Monokrom) */
+[data-bs-theme="dark"] {
+    --bg-color: #0a0a0a;        /* Saf karanlığa çok yakın */
+    --text-color: #f5f5f5;      /* Göz yormayan beyaz */
+    --text-secondary: #a3a3a3;  /* Orta gri alt metinler */
+    --nav-bg: rgba(10, 10, 10, 0.8);
+    --card-bg: #141414;         /* Arka plandan bir tık açık */
+    --card-border: #262626;     
+    --input-bg: #0a0a0a;        
+    --primary: #f5f5f5;         /* Karanlık modda beyaz butonlar */
+    --primary-hover: #cccccc;
+    --btn-text: #111111;        /* Beyaz buton üstü siyah yazı */
+    --glow-shadow: rgba(255, 255, 255, 0.2); /* Beyaz focus efekti */
+    --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================================================= */
+/* GENEL AYARLAR                                                             */
+/* ========================================================================= */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+    transition: background-color 0.4s ease, color 0.4s ease; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+}
+
+/* ========================================================================= */
+/* GLASSMORPHISM NAVBAR & FOOTER                                             */
+/* ========================================================================= */
+.custom-navbar {
+    background-color: var(--nav-bg) !important;
+    backdrop-filter: blur(12px);         
+    -webkit-backdrop-filter: blur(12px); 
+    border-bottom: 1px solid var(--card-border) !important;
+    position: sticky; 
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.custom-footer {
+    background-color: transparent !important;
+    border-top: 1px solid var(--card-border) !important;
+}
+
+/* ========================================================================= */
+/* MİNİMALİST KARTLAR & BENTO BOX                                            */
+/* ========================================================================= */
+.custom-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-card:hover {
+    transform: translateY(-4px) scale(1.01); 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: var(--primary); /* Hoverda sınır vurgusu */
+}
+
+.bento-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background-color: var(--bg-color); /* Monokrom ikon zemini */
+    color: var(--primary);
+    border: 1px solid var(--card-border);
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================================================= */
+/* INPUT (Arama / Form Kutuları) VE BUTONLAR                                 */
+/* ========================================================================= */
+.custom-input {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-color);
+    border-radius: 14px !important;
+    padding: 1.2rem 1.5rem;
+    transition: all 0.3s ease;
+    font-size: 1.05rem;
+}
+
+.custom-input:focus {
+    background-color: var(--input-bg);
+    border-color: var(--primary);
+    color: var(--text-color);
+    box-shadow: 0 0 0 4px var(--glow-shadow); 
+    outline: none;
+}
+
+.custom-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.custom-label {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.custom-btn {
+    border-radius: 14px !important;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--btn-text) !important; /* Tema rengine göre Siyah/Beyaz değişken */
+}
+
+.custom-btn:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px var(--glow-shadow);
+    color: var(--btn-text) !important;
+}
+
+.search-btn {
+    border-radius: 0 14px 14px 0 !important;
+}
+.search-input {
+    border-radius: 14px 0 0 14px !important;
+    border-right: none;
+}
+
+/* ========================================================================= */
+/* KADEMELİ SAHNE GİRİŞ ANİMASYONLARI (STAGGERED ANIMATIONS)                 */
+/* ========================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-fade-up {
+    opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.30s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.60s; }
+
+/* ========================================================================= */
+/* FİLTRE PİLLLERI (REPO DİL FİLTRESİ)                                      */
+/* ========================================================================= */
+.filter-pill {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 0.3rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+    border-color: var(--primary);
+    color: var(--text-color);
+}
+
+.filter-pill.active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--btn-text);
+}
+
+/* ========================================================================= */
+/* GEÇMİŞ CHİPLERİ                                                           */
+/* ========================================================================= */
+.history-chip {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-chip:hover {
+    border-color: var(--primary);
+    color: var(--text-color);
+    transform: translateY(-1px);
+}
+
+/* ========================================================================= */
+/* DİL ANALİZ BARLARI (profil.html)                                          */
+/* ========================================================================= */
+.lang-bar-track {
+    background-color: var(--card-border);
+    border-radius: 999px;
+    height: 6px;
+    overflow: hidden;
+}
+
+.lang-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ========================================================================= */
+/* PROFİL DETAY (profil.html)                                                */
+/* ========================================================================= */
+.stat-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.insight-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.insight-row:last-child {
+    border-bottom: none;
+}

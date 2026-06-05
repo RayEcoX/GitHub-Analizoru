@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Word documents (proje dökümanı)
+*.docx
+
+# Yedek klasör
+V1_Yedek/
